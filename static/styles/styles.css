@@ -1,0 +1,82 @@
+.card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 1rem;
+  overflow: hidden; /* Ensures the image doesn't break rounded corners */
+}
+
+:root {
+  /* 3-color modern palette */
+  --brand: #000B58;    /* deep indigo (primary) */
+  --accent: #FF6B6B;   /* warm coral (accent)  */
+  --muted:  #6B7280;   /* cool gray (neutral)  */
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-img-top {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+.btn-primary {
+  background-color: var(--brand);
+  border: none;
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background-color: rgba(0,11,88,0.9);
+  border: none;
+}
+.btn-outline-secondary {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--brand);
+  color: var(--accent);
+  border-color: var(--brand);
+}
+
+#hero-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background-color: #f8f9fa;
+}
+#project-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+#services-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* New: make services SVG icons and nav links use the same brand color as .btn-primary */
+/* Make services SVG icons use the brand color so they match the buttons */
+#services-section .feature-icon,
+#services-section svg {
+  color: #e2ebf7;
+  fill: currentColor; /* ensure SVG shapes inherit color */
+}
+
+.nav-pills .nav-link {
+  color: var(--brand); /* Home / Contact link color */
+}
+
+.nav-pills .nav-link:hover,
+.nav-pills .nav-link:focus {
+  color: rgba(0,11,88,0.9); /* subtle darken of brand */
+}
+
+/* Target the SVG inside the link when the link is hovered */
+.text-muted:hover svg {
+  fill: var(--accent);
+  transition: fill 0.2s ease-in-out;
+}
+

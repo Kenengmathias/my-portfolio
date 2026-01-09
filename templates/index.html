@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/utils.html' import render_icon %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}Mathias' Portfolio Website{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+
+<!-- hero section -->
+    <div class="container" id="hero-section">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="/static/images/my-image.jpg" class="d-block mx-lg-auto img-fluid rounded-4" alt="Bootstrap Themes" width="400" height="400" style="aspect-ratio: 1 / 1; object-fit: cover;" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold lh-1 mb-3">I build custom web applications that work</h1>
+        <p class="lead">I'm a <strong>Python developer</strong> who builds web applications using Flask and Bootstrap. Let's work together to bring your idea to life.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <a href="#project-section" class="btn btn-primary bg-gradient rounded-pill px-4 py-2">View Projects</a>
+          <a href="{{ url_for('contact_me') }}" type="button" class="btn btn-outline-secondary bg-gradient rounded-pill px-4 py-2">Contact Me</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <hr class="my-4">
+
+<!-- display projects dynamically -->
+
+    <div class="container" id="project-section">
+      <h2 class="mb-4 mt-4">My Projects</h2>
+      <br>
+      <div class="row">
+        {% for project in projects %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <img src="{{ url_for('static', filename='images/' ~ project.image) }}" class="card-img-top" alt="{{ project.title }}" style="height: 250px; object-fit: cover;">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title justify-content-between align-items-center">{{ project.title }}
+                  {% if is_admin %}
+                  <form action="{{ url_for('delete_project', project_id=project.id) }}" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-link p-0 text-decoration-none" 
+                    onclick="return confirm('Delete this project?')">
+                🗑️
+            </button>
+        </form>
+                  {% endif %}
+                </h5>
+                <p class="card-text">{{ project.description[:150] }}</p>
+                <a href="{{ project.project_url }}" class="btn btn-primary bg-gradient rounded-pill px-4 py-2 mt-auto" target="_blank">View Project</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+     <!-- display Services -->
+      <div class="container" id="services-section">
+        <h2 class="mb-4 mt-4">Services I Offer</h2>
+     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3"> <div class="container feature col">  <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3" style="width: 64px; height: 64px; border-radius: .75rem;"> <svg xmlns="www.w3.org" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+      <path d="M2 1a2 2 0 0 0-2 2 v10a2 2 0 0 0 2 2 h12a2 2 0 0 0 2-2 V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1 v2 H1 V3a1 1 0 0 1 1-1zM1 13V6 h4 v8 H2a1 1 0 0 1-1-1m5 1V6 h9 v7 a1 1 0 0 1-1 1z"/>
+    </svg> </div> <h3 class="fs-2 text-body-emphasis">Full Web Applications</h3> <p>Custom web applications with database integration, user authentication, responsive design, landing pages, and dashboards tailored to your needs.</p>
+</div> 
+
+<div class="container feature col">
+  <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3" style="width: 64px; height: 64px; border-radius: .75rem;">
+    <svg xmlns="www.w3.org" width="32" height="32" fill="currentColor" class="bi bi-braces-asterisk" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M1.114 8.063V7.9c1.005-.102 1.497-.615 1.497-1.6V4.503c0-1.094.39-1.538 1.354-1.538h.273V2h-.376C2.25 2 1.49 2.759 1.49 4.352v1.524c0 1.094-.376 1.456-1.49 1.456v1.299c1.114 0 1.49.362 1.49 1.456v1.524c0 1.593.759 2.352 2.372 2.352h.376v-.965h-.273c-.964 0-1.354-.444-1.354-1.538V9.663c0-.984-.492-1.497-1.497-1.6ZM14.886 7.9v.163c-1.005.103-1.497.616-1.497 1.6v1.798c0 1.094-.39 1.538-1.354 1.538h-.273v.965h.376c1.613 0 2.372-.759 2.372-2.352v-1.524c0-1.094.376-1.456 1.49-1.456v-1.299c-1.114 0-1.49-.362-1.49-1.456V4.352C14.51 2.759 13.75 2 12.138 2h-.376v.965h.273c.964 0 1.354.444 1.354 1.538V6.3c0 .984.492 1.497 1.497 1.6ZM7.5 11.5V9.207l-1.621 1.621-.707-.707L6.792 8.5H4.5v-1h2.293L5.172 5.879l.707-.707L7.5 6.792V4.5h1v2.293l1.621-1.621.707.707L9.208 7.5H11.5v1H9.207l1.621 1.621-.707.707-1.622-1.622V11.5z"/>
+    </svg>
+  </div>
+  <h3 class="fs-2 text-body-emphasis">API Development</h3>
+  <p>RESTful APIs for connecting your application with other services and enabling seamless data exchange.</p>
+</div>
+ 
+
+<div class="container feature col">
+  <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3" style="width: 64px; height: 64px; border-radius: .75rem;">
+    <svg xmlns="www.w3.org" width="32" height="32" fill="currentColor" class="bi bi-envelope-check" viewBox="0 0 16 16">
+      <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+      <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"/>
+    </svg>
+  </div>
+  <h3 class="fs-2 text-body-emphasis">Form & Email Handling</h3>
+  <p>Contact forms, data submission systems, and automated email functionality to streamline your communications.</p>
+</div>
+     </div>
+
+     <!-- contact me -->
+
+    <div class="container">
+<h2>Get in touch</h2>
+<br>
+<br>
+<form action="{{ url_for('contact_me') }}" method="POST">
+{{ render_form(form, novalidate=True) }}
+</form>
+</div>
+
+{% endblock %}
+

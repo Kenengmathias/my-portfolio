@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+{% if is_admin %}
+<div class="container">
+    <h1 class="mt-4">Upload New Project</h1>
+<br>
+<br>
+<form action="{{ url_for('admin', admin=request.args.get('admin')) }}" method="POST" enctype="multipart/form-data">
+    {{ render_form(form, novalidate=True) }}
+</form>
+</div>
+{% endif %}
+{% endblock %}

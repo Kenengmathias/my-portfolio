@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block title %}Contact Me{% endblock %}
+
+{% block content %}
+<div class="container">
+<h1>Get in touch</h1>
+<br>
+<div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<form action="{{ url_for('contact_me') }}" method="POST">
+{{ render_form(form, novalidate=True) }}
+</form>
+</div>
+{% endblock %}
