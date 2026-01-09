@@ -74,10 +74,6 @@ class Project(db.Model):
     description = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(200), nullable=False)
 
-# To create tables initially (run this in a python shell or main)
-with app.app_context():
-    db.create_all()
-
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
