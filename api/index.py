@@ -46,11 +46,11 @@ if not secret:
 app.config['SECRET_KEY'] = secret or 'dev-secret'
 
 # Load DB URI with a safe sqlite fallback for local development
-db_uri = os.getenv('SQLALCHEMY_DATABASE_URI')
+db_uri = os.getenv('DATABASE_URI')
 if not db_uri:
     fallback = os.path.join(os.getcwd(), 'app.db')
     db_uri = f"sqlite:///{fallback}"
-    print(f"INFO: SQLALCHEMY_DATABASE_URI not set; falling back to {db_uri}")
+    print(f"INFO: DATABASE_URI not set; falling back to {db_uri}")
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
