@@ -32,9 +32,11 @@ class ContactMe(FlaskForm):
 
 
 # Point template_folder and static_folder one level up to the root
-app = Flask(__name__, 
-            template_folder='../templates', 
-            static_folder='../public')
+app = Flask(
+    __name__,
+    template_folder='../templates',
+    static_folder='../static',
+)
 
 bootstrap = Bootstrap5(app)
 # Load secret key with a clear dev fallback and visible warning
@@ -61,8 +63,21 @@ app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_APP_PASSWORD')
 
 mail = Mail(app)
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+# Initialize SQLAlchemy with a resilient fallback. On some serverless hosts
+# a DB driver (e.g. psycopg2) may be unavailable; catch init errors and
+# fall back to an ephemeral sqlite DB so the process doesn't crash with
+# ModuleNotFoundError during import.
+try:
+    db = SQLAlchemy(app)
+    migrate = Migrate(app, db)
+except Exception as e:
+    # Log the failure and switch to a safe sqlite fallback in /tmp
+    print(f"ERROR: SQLAlchemy init failed: {e}")
+    fallback = 'sqlite:////tmp/app.db'
+    print(f"Falling back to sqlite database at {fallback}")
+    app.config['SQLALCHEMY_DATABASE_URI'] = fallback
+    db = SQLAlchemy(app)
+    migrate = Migrate(app, db)
 
 # Provide a cache-busting version for static assets (falls back to 1)
 try:
@@ -164,6 +179,13 @@ def contact_me():
     
 
 
-if __name__ == '__index__':
+if __name__ == '__main__':
     app.run(debug=True)
+
+
+# Register a simple 500 handler that logs the exception for easier debugging
+@app.errorhandler(500)
+def internal_error(error):
+    app.logger.exception('Server Error: %s', error)
+    return 'Internal Server Error', 500
 
