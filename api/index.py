@@ -34,7 +34,7 @@ class ContactMe(FlaskForm):
 # Point template_folder and static_folder one level up to the root
 app = Flask(__name__, 
             template_folder='../templates', 
-            static_folder='../static')
+            static_folder='../public')
 
 bootstrap = Bootstrap5(app)
 # Load secret key with a clear dev fallback and visible warning
