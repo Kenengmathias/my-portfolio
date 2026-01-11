@@ -15,9 +15,9 @@ from supabase import create_client, Client
 
 load_dotenv()
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_ANON_KEY")
-supabase: Client = create_client(url, key)
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 class UploadProject(FlaskForm):
     project_url = URLField('Enter Project URL', validators=[DataRequired()])
@@ -125,7 +125,7 @@ def admin():
         supabase.storage.from_('my-portfolio-storage').upload(
             path=filename,
             file=file_content,
-            file_options={"content-type": f.content_type}
+            file_options={"content-type": f.content_type, "upsert": "true"}
         )
 
         image_url = supabase.storage.from_('my-portfolio-storage').get_public_url(filename)
@@ -134,7 +134,7 @@ def admin():
             project_url=url,
             title=title,
             description=description,
-            image=image_url
+            image=image_url.data.public_url
         )
         db.session.add(new_project)
         db.session.commit()
