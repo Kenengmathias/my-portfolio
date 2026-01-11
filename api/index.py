@@ -36,12 +36,13 @@ class ContactMe(FlaskForm):
     submit = SubmitField('Send Message')
 
 
-# Point template_folder and static_folder one level up to the root
 app = Flask(
     __name__,
     template_folder='../templates',
-    static_folder=None
+    static_folder='../public', # Point to public so Bootstrap-Flask can find its assets
+    static_url_path=''         # Keep this empty so your /images/ paths work
 )
+
 
 bootstrap = Bootstrap5(app)
 # Load secret key with a clear dev fallback and visible warning

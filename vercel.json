@@ -2,7 +2,7 @@
   "version": 2,
   "routes": [
     {
-      "src": "/(images|styles)/(.*)",
+      "src": "/(images|styles|css)/(.*)",
       "dest": "/public/$1/$2"
     },
     {
