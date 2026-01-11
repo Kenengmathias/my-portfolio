@@ -44,7 +44,7 @@ html {
 }
 
 #hero-section {
-  padding-top: 4rem;
+  padding-top: 2rem;
   padding-bottom: 4rem;
   background-color: #f8f9fa;
 }
@@ -80,3 +80,44 @@ html {
   transition: fill 0.2s ease-in-out;
 }
 
+
+/* Developer title responsive styling */
+/* .developer-title {
+  font-weight: 700;
+  color: var(--brand);
+  margin-top: 1.25rem; /* breathe on small screens */
+    /* margin-bottom: 0.5rem; /* make it sit closer to the hero */
+    /* text-align: left;
+    font-size: 1.5rem;
+  } */ 
+
+/* @media (min-width: 768px) {
+  .developer-title {
+    text-align: center; /* a little centered on md */
+    /* max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+  }
+} */
+
+/* @media (min-width: 992px) {
+  .developer-title {
+    text-align: center; fully centered on lg+
+    max-width: 820px;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
+  } */
+
+/* Small-screen tweak: reduce hero top padding so the title sits closer to the hero */
+/* @media (max-width: 767.98px) {
+  #hero-section {
+    padding-top: 3rem;
+  }
+} */
+/* 
+ */ 
