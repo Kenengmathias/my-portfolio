@@ -11,8 +11,13 @@ from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from flask_migrate import Migrate
 from flask_mailman import Mail, EmailMessage
+from supabase import create_client, Client
 
 load_dotenv()
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_ANON_KEY")
+supabase: Client = create_client(url, key)
 
 class UploadProject(FlaskForm):
     project_url = URLField('Enter Project URL', validators=[DataRequired()])
@@ -116,14 +121,20 @@ def admin():
         description = form.description.data
         f = form.image.data
         filename = secure_filename(f.filename)
-        upload_path = os.path.join(app.root_path, 'static', 'images', filename)
-        f.save(upload_path)
+        file_content = f.read()
+        supabase.storage.from_('project-images').upload(
+            path=filename,
+            file=file_content,
+            file_options={"content-type": f.content_type}
+        )
+
+        image_url = supabase.storage.from_('my-portfolio-storage').get_public_url(filename)
 
         new_project = Project(
             project_url=url,
             title=title,
             description=description,
-            image=filename
+            image=image_url
         )
         db.session.add(new_project)
         db.session.commit()
