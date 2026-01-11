@@ -39,9 +39,10 @@ class ContactMe(FlaskForm):
 app = Flask(
     __name__,
     template_folder='../templates',
-    static_folder='../public', # Point to public so Bootstrap-Flask can find its assets
-    static_url_path=''         # Keep this empty so your /images/ paths work
+    static_folder='../static',
+    static_url_path='/static'  # Standard Flask behavior
 )
+
 
 
 bootstrap = Bootstrap5(app)
