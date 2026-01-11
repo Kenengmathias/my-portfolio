@@ -40,7 +40,7 @@ class ContactMe(FlaskForm):
 app = Flask(
     __name__,
     template_folder='../templates',
-    static_folder='../static',
+    static_folder=None
 )
 
 bootstrap = Bootstrap5(app)
@@ -144,14 +144,33 @@ def admin():
     return render_template('admin.html', form=form, hide_nav=True, admin_key=admin_key, is_admin=True)
 
 
+
 @app.route('/delete/<int:project_id>', methods=['POST'])
 def delete_project(project_id):
     if request.args.get('admin') != '1234':
         return "Unauthorized", 403
+    
     project = Project.query.get_or_404(project_id)
+    
+    # 1. Delete image from Supabase Storage if it's a Supabase URL
+    if project.image.startswith('http'):
+        try:
+            # Extract filename from the end of the URL
+            # Example: https://.../project-images/my_photo.jpg -> my_photo.jpg
+            filename = project.image.split('/')[-1]
+            
+            # Remove from Supabase bucket
+            supabase.storage.from_('my-portfolio-storage').remove([filename])
+        except Exception as e:
+            print(f"Cloud storage delete failed: {e}")
+            # We continue anyway so the database record is still removed
+
+    # 2. Delete the record from PostgreSQL
     db.session.delete(project)
     db.session.commit()
+    
     return redirect(url_for('home'))
+
 
 
 @app.route('/contact_me', methods=['GET', 'POST'])

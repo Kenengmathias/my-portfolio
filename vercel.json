@@ -2,8 +2,8 @@
   "version": 2,
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "src": "/(images|styles)/(.*)",
+      "dest": "/public/$1/$2"
     },
     {
       "src": "/(.*)",
@@ -11,3 +11,4 @@
     }
   ]
 }
+
