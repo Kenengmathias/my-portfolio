@@ -122,7 +122,7 @@ def admin():
         f = form.image.data
         filename = secure_filename(f.filename)
         file_content = f.read()
-        supabase.storage.from_('project-images').upload(
+        supabase.storage.from_('my-portfolio-storage').upload(
             path=filename,
             file=file_content,
             file_options={"content-type": f.content_type}
@@ -134,7 +134,7 @@ def admin():
             project_url=url,
             title=title,
             description=description,
-            image=image_url.public_url
+            image=image_url
         )
         db.session.add(new_project)
         db.session.commit()
