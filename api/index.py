@@ -134,7 +134,7 @@ def admin():
             project_url=url,
             title=title,
             description=description,
-            image=image_url
+            image=image_url.public_url
         )
         db.session.add(new_project)
         db.session.commit()
